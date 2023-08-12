@@ -1,32 +1,37 @@
 use rand::Rng;
 use std::io::{self, Write};
+use std::cmp::Ordering;
 
 fn main() {
-    let mut guess = String::new();
+    println!("Guessing game initialized.");
 
-    let secret: i32 = rand::thread_rng().gen_range(1..=100);
+    loop {
+        let mut guess = String::new();
 
-    print!("Guessing game initialized. \nEnter a guess: ");
-    io::stdout()
-        .flush()
-        .expect("Toilet's clogged! Failed to flush");
+        let secret: u32 = rand::thread_rng().gen_range(1..=100);
 
-    io::stdin()
-        .read_line(&mut guess)
-        .expect("Failed to read line");
+        print!("Enter a guess: ");
+        io::stdout()
+            .flush()
+            .expect("Toilet's clogged! Failed to flush");
 
-    println!("You guessed: {}", guess.trim());
+        io::stdin()
+            .read_line(&mut guess)
+            .expect("Failed to read line");
 
-    println!("The secret number was: {secret}");
+        println!("You guessed: {}", guess.trim());
 
-    let x: i32 = guess
-        .trim()
-        .parse()
-        .expect("Failed to parse i8 int from guess");
+        println!("The secret number was: {}", secret);
 
-    if secret == x {
-        println!("You got it!");
-    } else {
-        println!("Better luck next time.");
+        let x: u32 = guess
+            .trim()
+            .parse()
+            .expect("Failed to parse u32 int from input, be sure to type a number.");
+
+        match x.cmp(&secret) {
+            Ordering::Less => println!("Aim higher."),
+            Ordering::Greater => println!("Way off."),
+            Ordering::Equal => println!("Lucky guess."),
+        }
     }
 }
