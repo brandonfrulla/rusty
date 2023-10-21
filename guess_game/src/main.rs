@@ -19,22 +19,16 @@ fn main() {
         io::stdin()
             .read_line(&mut guess)
             .expect("Failed to read line");
-
-        // println!("You guessed: {}", guess.trim());
-
+        
         println!("The secret number was: {}", secret); 
 
         let guess: u32 = match guess.trim().parse() {
             Ok(num) => num,
             Err(_) => {
-                println!("Enter a number between 1-100, dummy.");
+                println!("Enter a number between 1-100, dummy.\n");
                 continue;
             }
         };
-
-        // if guess == "quit" { //expected `u32`, found `&str`
-        //     break;
-        // }
 
         match guess.cmp(&secret) {
             Ordering::Less => println!("Aim higher.\n"),
